@@ -77,18 +77,19 @@ int_fast32_t v4l2_query_all_buffers(int_fast32_t dev, struct v4l2_buffer_data *b
 {
 	struct v4l2_buffer buf;
 
-	blog(LOG_DEBUG, "attempting to read buffer data for %ld buffers", buf_data->count);
+	blog(LOG_DEBUG, "attempting to read buffer data for %ld buffers", (long)buf_data->count);
 
 	for (uint_fast32_t i = 0; i < buf_data->count; i++) {
 		buf.index = i;
 		buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 		buf.memory = V4L2_MEMORY_MMAP;
 		if (v4l2_ioctl(dev, VIDIOC_QUERYBUF, &buf) < 0) {
-			blog(LOG_DEBUG, "failed to read buffer data for buffer #%ld", i);
+			blog(LOG_DEBUG, "failed to read buffer data for buffer #%ld", (long)i);
 		} else {
 			blog(LOG_DEBUG,
-			     "query buf #%ld info: ts: %06ld buf id #%d, flags 0x%08X, seq #%d, len %d, used %d", i,
-			     buf.timestamp.tv_usec, buf.index, buf.flags, buf.sequence, buf.length, buf.bytesused);
+			     "query buf #%ld info: ts: %06ld buf id #%d, flags 0x%08X, seq #%d, len %d, used %d",
+			     (long)i, buf.timestamp.tv_usec, buf.index, buf.flags, buf.sequence, buf.length,
+			     buf.bytesused);
 		}
 	}
 
