@@ -108,16 +108,16 @@ static bool do_http_request(struct update_info *info, const char *url, long *res
 	curl_easy_setopt(info->curl, CURLOPT_URL, url);
 	curl_easy_setopt(info->curl, CURLOPT_HTTPHEADER, info->header);
 	curl_easy_setopt(info->curl, CURLOPT_ERRORBUFFER, info->error);
-	curl_easy_setopt(info->curl, CURLOPT_WRITEFUNCTION, http_write);
+	curl_easy_setopt(info->curl, CURLOPT_WRITEFUNCTION, (void *)http_write);
 	curl_easy_setopt(info->curl, CURLOPT_WRITEDATA, info);
-	curl_easy_setopt(info->curl, CURLOPT_FAILONERROR, true);
-	curl_easy_setopt(info->curl, CURLOPT_NOSIGNAL, 1);
+	curl_easy_setopt(info->curl, CURLOPT_FAILONERROR, (long)true);
+	curl_easy_setopt(info->curl, CURLOPT_NOSIGNAL, (long)true);
 	curl_easy_setopt(info->curl, CURLOPT_ACCEPT_ENCODING, "");
 	curl_obs_set_revoke_setting(info->curl);
 
 	if (!info->remote_url) {
 		// We only care about headers from the main package file
-		curl_easy_setopt(info->curl, CURLOPT_HEADERFUNCTION, http_header);
+		curl_easy_setopt(info->curl, CURLOPT_HEADERFUNCTION, (void *)http_header);
 		curl_easy_setopt(info->curl, CURLOPT_HEADERDATA, info);
 	}
 
